@@ -465,8 +465,6 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             state = Skeleton.Appear;
             stateTracker = 0;
         }
-        System.out.println(event.getKeyChar());
-        System.out.println(event.getKeyCode());
     }
 
     @Override
@@ -480,9 +478,6 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             state = Skeleton.Die;
             stateTracker = 0;
         }
-        System.out.println(event.getKeyChar());
-        System.out.println(event.getKeyCode());
-
     }
 
     public static void main(String[] args) {
