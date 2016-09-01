@@ -11,6 +11,8 @@ import javax.swing.*;
 
 /**
  * Created by Dylan Cross on 27/08/16.
+ * Used IntelliJ (latest) & JDK 1.8.040
+ * Assignment 2 for 159.235 Graphical Programming
  */
 public class Animation extends JPanel implements KeyListener, Runnable {
 
