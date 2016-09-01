@@ -206,51 +206,49 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         switch(stateTracker) {
             case 0:
                 spritePart = sprite.getSubimage(0, 512, 256, 256);
-                g.rotate(180, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
-                g.rotate(180, 256, 256);
                 break;
             case 1:
                 spritePart = sprite.getSubimage(256, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 2:
                 spritePart = sprite.getSubimage(256 * 2, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 3:
                 spritePart = sprite.getSubimage(256 * 3, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 4:
                 spritePart = sprite.getSubimage(256 * 4, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 5:
                 // Last image in set, reset to 0
                 spritePart = sprite.getSubimage(256 * 5, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 6:
                 spritePart = sprite.getSubimage(256 * 6, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
                 break;
             case 7:
                 // Last image in set, reset tracker to 0;
                 spritePart = sprite.getSubimage(256 * 7, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker = 0;
                 break;
             default:
-                spritePart = sprite.getSubimage(0, 256, 512, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                spritePart = sprite.getSubimage(0, 512, 512, 256);
+                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker = 0;
                 break;
         }
@@ -461,7 +459,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
                 state = Skeleton.Die;
                 stateTracker = 0;
             }
-        } else if (state == Skeleton.Underground && event.getKeyCode() == 38) {
+        } else if (event.getKeyCode() == 38) {
             state = Skeleton.Appear;
             stateTracker = 0;
         }
