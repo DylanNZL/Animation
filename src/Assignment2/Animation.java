@@ -23,6 +23,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     private int stateTracker = 0; // Keeps track of where the animation is up to.
 
     /**
+     * Added WASD controls to the skeleton as well as the arrow keys.
      * Up/W = Appear
      * Down/S = Die
      * Left/A = WalkLeft
@@ -477,7 +478,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
 
     public static void main(String[] args) {
         System.out.println("*****************************************");
-        System.out.println("* 159.235 Assignment 1, Semester 2 2016 *");
+        System.out.println("* 159.235 Assignment 2, Semester 2 2016 *");
         System.out.println("* Submitted by:  Cross, Dylan, 15219491 *");
         System.out.println("*****************************************");
 
