@@ -56,6 +56,9 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     public void paintComponent(Graphics g) {
         if (sprite != null) {
             Graphics2D g2 = (Graphics2D) g;
+            // Clear back ground (windows doesn't by default)
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, getWidth(), getHeight());
             // Checks the current state, and then sends to the correct function to draw the right skeleton
             if (state == Skeleton.Underground) {
                 underground(g2);
@@ -423,18 +426,27 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     }
 
     // Changes the state of the animation if the key pressed is the attack/walk buttons
+    // The program has to check that it is not it's current state or it will be overwhelmed with button presses on windows (works on Mac though)
     @Override
     public void keyPressed(KeyEvent event) {
         if (state != Skeleton.Underground) {
             if ((event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) && state != Skeleton.WalkRight) {
+                if (state != Skeleton.WalkLeft) {
+                    stateTracker = 0;
+                }
                 state = Skeleton.WalkLeft;
-                stateTracker = 0;
+
             } else if ((event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) && state != Skeleton.WalkLeft) {
+                if (state != Skeleton.WalkRight) {
+                    stateTracker = 0;
+                }
                 state = Skeleton.WalkRight;
-                stateTracker = 0;
+
             } else if (event.getKeyCode() == 32 || event.getKeyChar() == 'k') {
+                if (state != Skeleton.Attack) {
+                    stateTracker = 0;
+                }
                 state = Skeleton.Attack;
-                stateTracker = 0;
             }
         }
     }
@@ -453,21 +465,26 @@ public class Animation extends JPanel implements KeyListener, Runnable {
                 state = Skeleton.Idle;
                 stateTracker = 0;
             } else if (event.getKeyCode() == 40) {
+                if (state != Skeleton.Die) {
+                    stateTracker = 0;
+                }
                 state = Skeleton.Die;
-                stateTracker = 0;
             }
         } else if (event.getKeyCode() == 38) {
+            if (state != Skeleton.Appear) {
+                stateTracker = 0;
+            }
             state = Skeleton.Appear;
-            stateTracker = 0;
         }
     }
 
     // If the key typed corresponds to any of these keys, it will change the state (or quit the game if it was a 'Q')
+    // Arrow keys won't work here for some reason due to it not being "typed" (Maybe?) Kept it so that Q/W/S will work using this method.
     @Override
     public void keyTyped(KeyEvent event) {
         if (event.getKeyChar() == 'q' || event.getKeyChar() == 'Q') {
             System.exit(0);
-        } else if ((event.getKeyChar() == 'w' || event.getKeyChar() == 'W' || event.getKeyCode() == 3) && state == Skeleton.Underground) {
+        } else if ((event.getKeyChar() == 'w' || event.getKeyChar() == 'W') && state == Skeleton.Underground) {
             state = Skeleton.Appear;
             stateTracker = 0;
         }  else if ((event.getKeyChar() == 's' || event.getKeyChar() == 'S') && state != Skeleton.Underground) {
