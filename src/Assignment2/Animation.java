@@ -433,20 +433,21 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             if ((event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) && state != Skeleton.WalkRight) {
                 if (state != Skeleton.WalkLeft) {
                     stateTracker = 0;
+                    state = Skeleton.WalkLeft;
                 }
-                state = Skeleton.WalkLeft;
 
             } else if ((event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) && state != Skeleton.WalkLeft) {
                 if (state != Skeleton.WalkRight) {
                     stateTracker = 0;
+                    state = Skeleton.WalkRight;
                 }
-                state = Skeleton.WalkRight;
 
             } else if (event.getKeyCode() == 32 || event.getKeyChar() == 'k') {
                 if (state != Skeleton.Attack) {
                     stateTracker = 0;
+
+                    state = Skeleton.Attack;
                 }
-                state = Skeleton.Attack;
             }
         }
     }
@@ -467,14 +468,14 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             } else if (event.getKeyCode() == 40) {
                 if (state != Skeleton.Die) {
                     stateTracker = 0;
+                    state = Skeleton.Die;
                 }
-                state = Skeleton.Die;
             }
         } else if (event.getKeyCode() == 38) {
             if (state != Skeleton.Appear) {
                 stateTracker = 0;
+                state = Skeleton.Appear;
             }
-            state = Skeleton.Appear;
         }
     }
 
