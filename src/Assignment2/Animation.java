@@ -23,11 +23,11 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     private int stateTracker = 0; // Keeps track of where the animation is up to.
 
     /**
-     * Up = Appear
-     * Down = Die
-     * Left = WalkLeft
-     * Right = WalkRight
-     * Space = Attack
+     * Up/W = Appear
+     * Down/S = Die
+     * Left/A = WalkLeft
+     * Right/D = WalkRight
+     * Space/K = Attack
      * No input after appearing = Idle
      * No Input before appearing/after dieing = Underground
      */
@@ -35,20 +35,18 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         Underground, Appear, WalkLeft, WalkRight, Die, Attack, Idle
     }
 
-    Animation() {
-
-        this.addKeyListener(this); // Listen to key presses on this JPanel
-
+    private Animation() {
+        this.addKeyListener(this);
         try {
             sprite = ImageIO.read(new File("./src/Assignment2/skeleton-sprite.png")); // this will need to be changed to possibly just the skeleton-sprite if it is not running in IntelliJ
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        thread = new Thread(this); // create separate thread to run our Timer
-        thread.start(); // and start it
+        thread = new Thread(this);
+        thread.start();
     }
 
+    // Repaint the canvas (will move the skeleton to the current stage of the animation)
     private void update () {
         this.repaint();
     }
@@ -57,7 +55,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     public void paintComponent(Graphics g) {
         if (sprite != null) {
             Graphics2D g2 = (Graphics2D) g;
-            // Underground, Appear, WalkLeft, WalkRight, Die, Attack, Idle
+            // Checks the current state, and then sends to the correct function to draw the right skeleton
             if (state == Skeleton.Underground) {
                 underground(g2);
             } else if (state == Skeleton.Appear) {
@@ -176,7 +174,6 @@ public class Animation extends JPanel implements KeyListener, Runnable {
                 stateTracker++;
                 break;
             case 5:
-                // Last image in set, reset to 0
                 spritePart = sprite.getSubimage(256 * 5, 512, 256, 256);
                 g.drawImage(spritePart, 0, 0, null);
                 stateTracker++;
@@ -230,7 +227,6 @@ public class Animation extends JPanel implements KeyListener, Runnable {
                 stateTracker++;
                 break;
             case 5:
-                // Last image in set, reset to 0
                 spritePart = sprite.getSubimage(256 * 5, 512, 256, 256);
                 g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
                 stateTracker++;
@@ -357,7 +353,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             default:
                 spritePart = sprite.getSubimage(0, 1024, 256, 256);
                 g.drawImage(spritePart, 0, 0, null);
-                stateTracker = 1;
+                stateTracker = 0;
                 break;
         }
     }
@@ -405,18 +401,16 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         }
     }
 
+    // Thread
     @Override
     public void run() {
-        long delayTime = 1000 / 5; // ms / FPS
+        long delayTime = 1000 / 7; // ms / FPS
         long startTime, waitTime, elapsedTime;
-
         Thread th = Thread.currentThread();
-
         while (thread == th) {
             startTime = System.currentTimeMillis();
-
+            // Call update which repaints the canvas
             update();
-
             elapsedTime = System.currentTimeMillis() - startTime;
             waitTime = Math.max(delayTime - elapsedTime, 5);
             try {
@@ -427,22 +421,24 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         }
     }
 
+    // Changes the state of the animation if the key pressed is the attack/walk buttons
     @Override
     public void keyPressed(KeyEvent event) {
         if (state != Skeleton.Underground) {
-            if (event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) {
+            if ((event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) && state != Skeleton.WalkRight) {
                 state = Skeleton.WalkLeft;
                 stateTracker = 0;
-            } else if (event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) {
+            } else if ((event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) && state != Skeleton.WalkLeft) {
                 state = Skeleton.WalkRight;
                 stateTracker = 0;
-            } else if (event.getKeyChar() == ' ' || event.getKeyChar() == 'k') {
+            } else if (event.getKeyCode() == 32 || event.getKeyChar() == 'k') {
                 state = Skeleton.Attack;
                 stateTracker = 0;
             }
         }
     }
 
+    // Changes the state of the animation if the key released was changing the state, or allows the skeleton to appear/die
     @Override
     public void keyReleased(KeyEvent event) {
         if (state != Skeleton.Underground) {
@@ -452,7 +448,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
             } else if (event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) {
                 state = Skeleton.Idle;
                 stateTracker = 0;
-            } else if (event.getKeyChar() == ' ' || event.getKeyChar() == 'k' || event.getKeyCode() == 32) {
+            } else if (event.getKeyChar() == 'k' || event.getKeyCode() == 32) {
                 state = Skeleton.Idle;
                 stateTracker = 0;
             } else if (event.getKeyCode() == 40) {
@@ -465,11 +461,12 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         }
     }
 
+    // If the key typed corresponds to any of these keys, it will change the state (or quit the game if it was a 'Q')
     @Override
     public void keyTyped(KeyEvent event) {
         if (event.getKeyChar() == 'q' || event.getKeyChar() == 'Q') {
             System.exit(0);
-        } else if ((event.getKeyChar() == 'w' || event.getKeyChar() == 'W') && state == Skeleton.Underground) {
+        } else if ((event.getKeyChar() == 'w' || event.getKeyChar() == 'W' || event.getKeyCode() == 3) && state == Skeleton.Underground) {
             state = Skeleton.Appear;
             stateTracker = 0;
         }  else if ((event.getKeyChar() == 's' || event.getKeyChar() == 'S') && state != Skeleton.Underground) {
@@ -483,6 +480,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         System.out.println("* 159.235 Assignment 1, Semester 2 2016 *");
         System.out.println("* Submitted by:  Cross, Dylan, 15219491 *");
         System.out.println("*****************************************");
+
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Assignment 2 - 159.235");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
