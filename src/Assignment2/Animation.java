@@ -18,6 +18,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
 
     private Thread thread = null; // Thread
     private Skeleton state = Skeleton.Underground; // Keep track of the state of the skeleton
+    private boolean right = false; // Keep track of which way the skeleton is facing (false = left, true = right).
     private BufferedImage sprite = null; // Sprite
     private BufferedImage spritePart = null; // Used for taking snippets of the sprite and printing it to the canvas
     private int stateTracker = 0; // Keeps track of where the animation is up to.
@@ -33,7 +34,7 @@ public class Animation extends JPanel implements KeyListener, Runnable {
      * No Input before appearing/after dieing = Underground
      */
     private enum Skeleton {
-        Underground, Appear, WalkLeft, WalkRight, Die, Attack, Idle
+        Underground, Appear, Walk, Die, Attack, Idle
     }
 
     private Animation() {
@@ -64,10 +65,8 @@ public class Animation extends JPanel implements KeyListener, Runnable {
                 underground(g2);
             } else if (state == Skeleton.Appear) {
                 appear(g2);
-            } else if (state == Skeleton.WalkLeft) {
-                walkLeft(g2);
-            } else if (state == Skeleton.WalkRight) {
-                walkRight(g2);
+            } else if (state == Skeleton.Walk) {
+                walk(g2);
             } else if (state == Skeleton.Die) {
                 die(g2);
             } else if (state == Skeleton.Attack) {
@@ -149,106 +148,89 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     }
 
     // Draws the skeleton in the walkLeft state
-    private void walkLeft(Graphics2D g) {
+    private void walk(Graphics2D g) {
         // 8 Images
         switch(stateTracker) {
             case 0:
                 spritePart = sprite.getSubimage(0, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 1:
                 spritePart = sprite.getSubimage(256, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 2:
                 spritePart = sprite.getSubimage(256 * 2, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 3:
                 spritePart = sprite.getSubimage(256 * 3, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 4:
                 spritePart = sprite.getSubimage(256 * 4, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 5:
                 spritePart = sprite.getSubimage(256 * 5, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 6:
                 spritePart = sprite.getSubimage(256 * 6, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 7:
                 // Last image in set, reset tracker to 0;
                 spritePart = sprite.getSubimage(256 * 7, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
             default:
                 spritePart = sprite.getSubimage(0, 256, 512, 256);
-                g.drawImage(spritePart, 0, 0, null);
-                stateTracker = 0;
-                break;
-        }
-    }
-
-    // Draws the skeleton in the walkRight state
-    private void walkRight(Graphics2D g) {
-        // 8 Images
-        switch(stateTracker) {
-            case 0:
-                spritePart = sprite.getSubimage(0, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 1:
-                spritePart = sprite.getSubimage(256, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 2:
-                spritePart = sprite.getSubimage(256 * 2, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 3:
-                spritePart = sprite.getSubimage(256 * 3, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 4:
-                spritePart = sprite.getSubimage(256 * 4, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 5:
-                spritePart = sprite.getSubimage(256 * 5, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 6:
-                spritePart = sprite.getSubimage(256 * 6, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker++;
-                break;
-            case 7:
-                // Last image in set, reset tracker to 0;
-                spritePart = sprite.getSubimage(256 * 7, 512, 256, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
-                stateTracker = 0;
-                break;
-            default:
-                spritePart = sprite.getSubimage(0, 512, 512, 256);
-                g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
         }
@@ -315,48 +297,84 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         switch(stateTracker) {
             case 0:
                 spritePart = sprite.getSubimage(0, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 1:
                 spritePart = sprite.getSubimage(256, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 2:
                 spritePart = sprite.getSubimage(256 * 2, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 3:
                 spritePart = sprite.getSubimage(256 * 3, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 4:
                 spritePart = sprite.getSubimage(256 * 4, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 5:
                 spritePart = sprite.getSubimage(256 * 5, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 6:
                 spritePart = sprite.getSubimage(256 * 6, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 7:
                 // Last image in set, reset tracker to 0;
                 spritePart = sprite.getSubimage(256 * 7, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
             default:
                 spritePart = sprite.getSubimage(0, 1024, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
         }
@@ -368,38 +386,66 @@ public class Animation extends JPanel implements KeyListener, Runnable {
         switch(stateTracker) {
             case 0:
                 spritePart = sprite.getSubimage(0, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 1:
                 spritePart = sprite.getSubimage(256, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 2:
                 spritePart = sprite.getSubimage(256 * 2, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 3:
                 spritePart = sprite.getSubimage(256 * 3, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 4:
                 spritePart = sprite.getSubimage(256 * 4, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker++;
                 break;
             case 5:
                 // Last image in set, reset to 0
                 spritePart = sprite.getSubimage(256 * 5, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
             default:
                 spritePart = sprite.getSubimage(0, 256, 256, 256);
-                g.drawImage(spritePart, 0, 0, null);
+                if (!right) {
+                    g.drawImage(spritePart, 0, 0, null);
+                } else {
+                    g.drawImage(spritePart, 0, 0, 256, 256, 256, 0, 0, 256, null);
+                }
                 stateTracker = 0;
                 break;
         }
@@ -430,22 +476,21 @@ public class Animation extends JPanel implements KeyListener, Runnable {
     @Override
     public void keyPressed(KeyEvent event) {
         if (state != Skeleton.Underground) {
-            if ((event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) && state != Skeleton.WalkRight) {
-                if (state != Skeleton.WalkLeft) {
+            if (event.getKeyChar() == 'a' || event.getKeyChar() == 'A' || event.getKeyCode() == 37) {
+               if (state != Skeleton.Walk) {
+                    right = false;
                     stateTracker = 0;
-                    state = Skeleton.WalkLeft;
-                }
-
-            } else if ((event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) && state != Skeleton.WalkLeft) {
-                if (state != Skeleton.WalkRight) {
+                    state = Skeleton.Walk;
+               }
+            } else if (event.getKeyChar() == 'd' || event.getKeyChar() == 'D' || event.getKeyCode() == 39) {
+                if (state != Skeleton.Walk) {
+                    right = true;
                     stateTracker = 0;
-                    state = Skeleton.WalkRight;
+                    state = Skeleton.Walk;
                 }
-
-            } else if (event.getKeyCode() == 32 || event.getKeyChar() == 'k') {
+            } else if (event.getKeyCode() == 32 || event.getKeyChar() == 'k' || event.getKeyChar() == 'K') {
                 if (state != Skeleton.Attack) {
                     stateTracker = 0;
-
                     state = Skeleton.Attack;
                 }
             }
